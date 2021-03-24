@@ -13,9 +13,9 @@ func main() {
 	tobj.SetValue(15)
 	fmt.Printf("Now value is: %d\n", tobj.GetValue())
 
-	//tobj.AddCallback(func() {
-	//	fmt.Println("You know me now bro?")
-	//})
+	tobj.AddCallback(func() {
+		fmt.Println("You know me now bro?")
+	})
 
 	tobj.ConnectSignal()
 
