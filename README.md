@@ -3,7 +3,7 @@ Small example which shows how to create custom GObject as well as how to connect
 
 # The main.go file 
 
-```
+```golang
 package main
 
 /*
@@ -33,7 +33,7 @@ func main() {
 
 # Running part
 
-```
+```bash
 $ ./cgo-gobject 
 [*] tObj @0xc00019c008
 [*] Current value is: 0
