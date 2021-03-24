@@ -21,21 +21,35 @@ type TestObject struct {
 	obj *C.TestObject
 }
 
+func CreateNewObject() *TestObject {
+	return &TestObject{C.get_new_test_object()}
+}
+
+func (t *TestObject) GetValue() int {
+	return int(C.test_object_get_value(t.obj))
+}
+
+func (t *TestObject) SetValue(val int) {
+	C.test_object_set_value(t.obj, C.guint(val))
+}
+
 func main() {
-	tObj := TestObject{C.get_new_test_object()}
-	fmt.Printf("[*] tObj @%p\n", &tObj)
-	fmt.Printf("[*] Current value is: %d\n", int(C.test_object_get_value(tObj.obj)))
+	tobj := CreateNewObject()
+	fmt.Printf("[*] GObject @%p\n", tobj)
+
+	fmt.Printf("[*] Current value is: %d\n", tobj.GetValue())
+
 	fmt.Println("[*] Changing value to 15")
-	C.test_object_set_value(tObj.obj, C.guint(15))
-	fmt.Printf("[*] Value is now: %d\n", int(C.test_object_get_value(tObj.obj)))
+	tobj.SetValue(15)
+	fmt.Printf("[*] Value is now: %d\n", tobj.GetValue())
 }
 ```
 
 # Running part
 
 ```bash
-$ ./cgo-gobject 
-[*] tObj @0xc00019c008
+$ go build && ./cgo-gobject 
+[*] GObject @0xc0000b2008
 [*] Current value is: 0
 [*] Changing value to 15
 [*] Value is now: 15
