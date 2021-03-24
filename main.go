@@ -1,9 +1,3 @@
-# cgo-gobject
-Small example which shows how to create custom GObject as well as how to connect it to Go.
-
-# The main.go file 
-
-```
 package main
 
 /*
@@ -29,14 +23,3 @@ func main() {
 	C.test_object_set_value(tObj.obj, C.guint(15))
 	fmt.Printf("[*] Value is now: %d\n", int(C.test_object_get_value(tObj.obj)))
 }
-```
-
-# Running part
-
-```
-$ ./cgo-gobject 
-[*] tObj @0xc00019c008
-[*] Current value is: 0
-[*] Changing value to 15
-[*] Value is now: 15
-```
