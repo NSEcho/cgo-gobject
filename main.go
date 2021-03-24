@@ -1,39 +1,56 @@
 package main
 
-/*
-#cgo LDFLAGS: -L/usr/local/Cellar/glib/2.68.0/lib -L/usr/local/opt/gettext/lib -lgobject-2.0 -lglib-2.0 -lintl
-#cgo CFLAGS: -I/usr/local/Cellar/libffi/3.3_3/include -I/usr/local/Cellar/glib/2.68.0/include -I/usr/local/Cellar/glib/2.68.0/include/glib-2.0 -I/usr/local/Cellar/glib/2.68.0/lib/glib-2.0/include -I/usr/local/opt/gettext/include -I/usr/local/Cellar/pcre/8.44/include
-#include "test-object.h"
-*/
-import "C"
-
 import (
 	"fmt"
+
+	"github.com/lateralusd/cgo-gobject/api"
 )
 
-type TestObject struct {
-	obj *C.TestObject
-}
-
-func CreateNewObject() *TestObject {
-	return &TestObject{C.get_new_test_object()}
-}
-
-func (t *TestObject) GetValue() int {
-	return int(C.test_object_get_value(t.obj))
-}
-
-func (t *TestObject) SetValue(val int) {
-	C.test_object_set_value(t.obj, C.guint(val))
-}
-
 func main() {
-	tobj := CreateNewObject()
-	fmt.Printf("[*] GObject @%p\n", tobj)
 
-	fmt.Printf("[*] Current value is: %d\n", tobj.GetValue())
-
-	fmt.Println("[*] Changing value to 15")
+	tobj := api.CreateNewObject()
+	fmt.Printf("Current value is: %d\n", tobj.GetValue())
 	tobj.SetValue(15)
-	fmt.Printf("[*] Value is now: %d\n", tobj.GetValue())
+	fmt.Printf("Now value is: %d\n", tobj.GetValue())
+
+	//tobj.AddCallback(func() {
+	//	fmt.Println("You know me now bro?")
+	//})
+
+	tobj.ConnectSignal()
+
+	tobj.Emit()
+	/*
+		tobj := CreateNewObject()
+		fmt.Printf("[*] GObject @%p\n", tobj)
+
+		fmt.Printf("[*] Current value is: %d\n", tobj.GetValue())
+
+		fmt.Println("[*] Changing value to 15")
+		tobj.SetValue(15)
+		fmt.Printf("[*] Value is now: %d\n", tobj.GetValue())
+
+		init_callback(func() {
+			fmt.Println("Fuck you bro")
+		})
+
+		tobj.ConnectCallback()
+
+		tobj.Emit()*/
 }
+
+/*
+var defaultFn func()
+
+func init_callback(fn func()) {
+	defaultFn = fn
+}
+
+func defaultCallback() {
+	fmt.Println("I am default callback")
+}
+
+func customCallback() {
+	defaultFn()
+}
+*/
